@@ -1,0 +1,75 @@
+### CMD: python --version
+Python 3.12.3
+### EXIT: 0
+
+### CMD: python make_sample.py
+Created a new sample folder beside make_sample.py.
+It holds 8 made-up files for pattern search practice.
+### EXIT: 0
+
+### CMD: python make_sample.py
+Stopped: sample already exists. Nothing was replaced or deleted.
+### EXIT: 1
+
+### CMD: python findbyname.py "*.jpg" sample
+found: 0
+### EXIT: 0
+
+### CMD: python findbyname.py "*.jpg" sample
+Name search
+Folder: sample
+Pattern: *.jpg
+
+Files found: 2
+  photos/cat.jpg
+  photos/dog.JPG
+### EXIT: 0
+
+### CMD: python findbyname.py "report*" sample
+Name search
+Folder: sample
+Pattern: report*
+
+Files found: 2
+  report draft.docx
+  report final.docx
+### EXIT: 0
+
+### CMD: python findbyname.py "cat-0?.png" sample
+Name search
+Folder: sample
+Pattern: cat-0?.png
+
+Files found: 1
+  photos/raw/cat-01.png
+### EXIT: 0
+
+### CMD: python -m unittest -v
+test_file_instead_of_folder_is_a_clear_error (test_findbyname.CliTests.test_file_instead_of_folder_is_a_clear_error) ... ok
+test_folder_defaults_to_current_folder (test_findbyname.CliTests.test_folder_defaults_to_current_folder) ... ok
+test_help_prints_usage (test_findbyname.CliTests.test_help_prints_usage) ... ok
+test_missing_folder_is_a_clear_error (test_findbyname.CliTests.test_missing_folder_is_a_clear_error) ... ok
+test_no_arguments_prints_usage (test_findbyname.CliTests.test_no_arguments_prints_usage) ... ok
+test_report_echoes_folder_and_pattern (test_findbyname.CliTests.test_report_echoes_folder_and_pattern) ... ok
+test_report_lists_matches_and_count (test_findbyname.CliTests.test_report_lists_matches_and_count) ... ok
+test_tool_does_not_change_the_tree (test_findbyname.CliTests.test_tool_does_not_change_the_tree) ... ok
+test_matching_ignores_case_in_name (test_findbyname.FindMatchesTests.test_matching_ignores_case_in_name) ... ok
+test_matching_ignores_case_in_pattern (test_findbyname.FindMatchesTests.test_matching_ignores_case_in_pattern) ... ok
+test_nested_paths_use_forward_slashes (test_findbyname.FindMatchesTests.test_nested_paths_use_forward_slashes) ... ok
+test_no_match_gives_an_empty_list (test_findbyname.FindMatchesTests.test_no_match_gives_an_empty_list) ... ok
+test_pattern_with_no_wildcards_needs_the_whole_name (test_findbyname.FindMatchesTests.test_pattern_with_no_wildcards_needs_the_whole_name) ... ok
+test_question_mark_matches_one_character (test_findbyname.FindMatchesTests.test_question_mark_matches_one_character) ... ok
+test_results_are_sorted (test_findbyname.FindMatchesTests.test_results_are_sorted) ... ok
+test_star_at_the_start (test_findbyname.FindMatchesTests.test_star_at_the_start) ... ok
+test_star_matches_extension (test_findbyname.FindMatchesTests.test_star_matches_extension) ... ok
+test_source_has_no_write_calls (test_findbyname.SafetyTests.test_source_has_no_write_calls) ... ok
+test_rerun_preserves_generated_folder_and_user_file (test_findbyname.SampleTests.test_rerun_preserves_generated_folder_and_user_file) ... ok
+test_sample_folder_matches_the_lesson_counts (test_findbyname.SampleTests.test_sample_folder_matches_the_lesson_counts) ... ok
+test_setup_refuses_existing_file (test_findbyname.SampleTests.test_setup_refuses_existing_file) ... ok
+test_setup_refuses_existing_folder_without_change (test_findbyname.SampleTests.test_setup_refuses_existing_folder_without_change) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.208s
+
+OK
+### EXIT: 0
