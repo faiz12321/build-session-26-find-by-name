@@ -6,6 +6,8 @@ couple of names that trick a simple text search. It refuses any existing
 sample path before writing. Nothing is deleted or replaced.
 """
 import os
+import stat
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SAMPLE = os.path.join(HERE, "sample")
@@ -23,6 +25,13 @@ FILES = [
 
 
 def main():
+    root = Path(SAMPLE).absolute()
+    if '..' in root.parts:
+        raise OSError('Parent-traversal paths are unsupported.')
+    for parent in reversed(root.parents):
+        info = parent.lstat()
+        if stat.S_ISLNK(info.st_mode) or getattr(info, 'st_file_attributes', 0) & 0x400:
+            raise OSError('Linked/reparse-point parents are unsupported.')
     try:
         os.mkdir(SAMPLE)
     except FileExistsError:
