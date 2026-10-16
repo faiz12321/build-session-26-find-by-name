@@ -156,22 +156,56 @@ class CliTests(unittest.TestCase):
 
 
 class SampleTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.work = self.temp.name
+        shutil.copyfile(os.path.join(HERE, "make_sample.py"),
+                        os.path.join(self.work, "make_sample.py"))
+
+    def setup_run(self):
+        return subprocess.run([sys.executable, os.path.join(self.work, "make_sample.py")],
+                              capture_output=True, text=True)
+
     def test_sample_folder_matches_the_lesson_counts(self):
-        sample = os.path.join(HERE, "sample")
-        if not os.path.isdir(sample):
-            self.skipTest("sample folder not made yet")
-        self.assertEqual(
-            findbyname.find_matches(sample, "*.jpg"),
-            ["photos/cat.jpg", "photos/dog.JPG"],
-        )
-        self.assertEqual(
-            findbyname.find_matches(sample, "report*"),
-            ["report draft.docx", "report final.docx"],
-        )
-        self.assertEqual(
-            findbyname.find_matches(sample, "cat-0?.png"),
-            ["photos/raw/cat-01.png"],
-        )
+        self.assertEqual(self.setup_run().returncode, 0)
+        sample = os.path.join(self.work, "sample")
+        self.assertEqual(findbyname.find_matches(sample, "*.jpg"),
+                         ["photos/cat.jpg", "photos/dog.JPG"])
+        self.assertEqual(findbyname.find_matches(sample, "report*"),
+                         ["report draft.docx", "report final.docx"])
+        self.assertEqual(findbyname.find_matches(sample, "cat-0?.png"),
+                         ["photos/raw/cat-01.png"])
+
+    def test_setup_refuses_existing_folder_without_change(self):
+        sample = os.path.join(self.work, "sample")
+        make(sample, "notes.txt")
+        with open(os.path.join(sample, "notes.txt"), "w") as handle:
+            handle.write("USER DATA")
+        make(sample, "unrelated/deep.txt")
+        before = snapshot_tree(sample)
+        result = self.setup_run()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Nothing was replaced or deleted", result.stderr)
+        self.assertEqual(before, snapshot_tree(sample))
+        with open(os.path.join(sample, "notes.txt")) as handle:
+            self.assertEqual(handle.read(), "USER DATA")
+
+    def test_setup_refuses_existing_file(self):
+        sample = os.path.join(self.work, "sample")
+        with open(sample, "w") as handle:
+            handle.write("KEEP")
+        self.assertNotEqual(self.setup_run().returncode, 0)
+        with open(sample) as handle:
+            self.assertEqual(handle.read(), "KEEP")
+
+    def test_rerun_preserves_generated_folder_and_user_file(self):
+        self.assertEqual(self.setup_run().returncode, 0)
+        sample = os.path.join(self.work, "sample")
+        make(sample, "new-user-file.txt")
+        before = snapshot_tree(sample)
+        self.assertNotEqual(self.setup_run().returncode, 0)
+        self.assertEqual(before, snapshot_tree(sample))
 
 
 class SafetyTests(unittest.TestCase):
