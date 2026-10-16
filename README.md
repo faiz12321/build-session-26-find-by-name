@@ -1,39 +1,19 @@
-# Find files by name pattern
+# Find fictional files by name
 
-The final `findbyname.py` is a read-only teaching tool. It matches file names,
-not file contents or folder names, using `fnmatchcase` on lowercased strings.
-It lists relative paths with forward slashes. Unreadable folders can be skipped,
-so a report is not a complete audit. A match is not a deletion recommendation.
-
-## Practise
-
-Save all three files in a new empty lesson folder. Python 3 is required:
+Save three source files in a NEW empty lesson folder.
 
     python make_sample.py
     python findbyname.py "*.jpg" sample
-    python findbyname.py "report*" sample
-    python findbyname.py "cat-0?.png" sample
     python -m unittest -v
 
-Setup creates `sample` beside the script and refuses any existing sample path.
-It does not delete or reset existing folders. Use a different new empty lesson
-folder if it refuses. Photo and document names contain fictional text practice
-bytes, not real photos or documents.
+Two Windows and two Ubuntu full replays run exact visible source versions. Final 36 small fixture tests pass (Unix pipe skips on Windows); symlink creation can skip where unavailable. Displayed stdout is first Windows output, not normalized or mixed. Pair differences are unittest time.
+Link/error changes only: final reader refuses root/ancestor and traversed tree symbolic links/reparse points, hardlinks, special files and traversal. Metadata/list errors now stop with exit 2 instead of silent skips or false clean success. Every encountered entry is checked, including names that would not match. Setup refuses linked parents/traversal and existing sample paths, without reset or deletion. Naive first version remains fictional-sample-only and must be replaced.
+Original lowercased filename-only fnmatchcase matching, wildcard rules, current-folder default, relative display paths and sorting remain unchanged. It searches names, not contents, and includes hidden names; output is not a content-safety, identity or completeness certificate. Empty results only mean no matches found in a successful scan.
+The checker has no write/move/delete/network code and opens no file contents. No total size/time/resource limit, atomic snapshot or hostile-race defense. Stop editors/sync; entries can change during the walk. Filenames and paths can be private. Small fictional fixtures are not proof on every filesystem. No desktop Windows/macOS recording. Recorder removes only its own temporary fixture folder. Decisions and feedback are teaching text, not recorded output.
 
-## Tests and recordings
+MIT code. Python separately licensed/not included.
 
-22 fixture tests all create their data inside temporary folders. They cover
-pattern behavior, CLI errors, unchanged source-tree metadata, setup file and
-folder collision refusal, existing bytes, a nested unrelated file and repeat-run
-preservation. The sample-count test also uses its own temporary folder.
+Reference: https://docs.python.org/3/library/os.html
 
-The repair was recorded twice on GitHub-hosted Windows and twice on Ubuntu.
-The recordings first save the intentionally limited plain-text checker from the
-lesson, run it, then save the final pattern checker. Displayed outputs use the
-first Windows run. Paired runs differ only in unittest elapsed time. Versions
-and test rendering can differ by platform. No macOS or Windows desktop session
-was tested; fixture passes are limited evidence, not a universal safety proof.
-
-## License
-
-MIT (see LICENSE).
+Windows pair: https://github.com/faiz12321/lesson-lab/actions/runs/38975573160
+Ubuntu pair: https://github.com/faiz12321/lesson-lab/actions/runs/38975633845
